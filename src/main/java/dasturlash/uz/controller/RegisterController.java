@@ -1,6 +1,7 @@
 package dasturlash.uz.controller;
 
 import dasturlash.uz.dao.UserDao;
+import dasturlash.uz.enam.UserRole;
 import dasturlash.uz.entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,10 +26,13 @@ public class RegisterController extends HttpServlet {
         String username = req.getParameter("username");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        String role = req.getParameter("role");
+        UserRole userRole = UserRole.valueOf(role);
         User newUser = new User();
         newUser.setName(name);
         newUser.setUsername(username);
         newUser.setEmail(email);
+        newUser.setRole(userRole);
         newUser.setPassword(password);
 
         UserDao.createUser(newUser);

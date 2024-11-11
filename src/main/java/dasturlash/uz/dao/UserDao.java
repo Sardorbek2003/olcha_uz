@@ -1,6 +1,7 @@
 package dasturlash.uz.dao;
 
 import dasturlash.uz.config.PostgresqlConfig;
+import dasturlash.uz.enam.UserRole;
 import dasturlash.uz.entity.User;
 import lombok.SneakyThrows;
 
@@ -13,24 +14,24 @@ import java.util.List;
 public class UserDao {
 
 
-
     @SneakyThrows
     public static void createUser(User user) {
-        try(Connection connection = PostgresqlConfig.getConnection()) {
-            String sql = "INSERT INTO users(name, username, email, password) VALUES (?, ?, ?, ?)";
+        try (Connection connection = PostgresqlConfig.getConnection()) {
+            String sql = "INSERT INTO users(name, username, email, password,role) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, user.getName());
             statement.setString(2, user.getUsername());
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getPassword());
+            statement.setString(5, user.getRole().toString());
             statement.executeUpdate();
         }
 
     }
 
-    @SneakyThrows
+
     public static User login(String username, String password) {
-        try(Connection connection = PostgresqlConfig.getConnection()) {
+        try (Connection connection = PostgresqlConfig.getConnection()) {
             User user = null;
             String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -45,11 +46,16 @@ public class UserDao {
                 user.setUsername(resultSet.getString("username"));
                 user.setEmail(resultSet.getString("email"));
                 user.setPassword(resultSet.getString("password"));
+                UserRole role = UserRole.valueOf(resultSet.getString("role"));
+                user.setRole(role);
             }
             return user;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
+        return null;
     }
+
     @SneakyThrows
     public static void deleteUser(String username) {
         String sql = "DELETE FROM users WHERE username = ?";
@@ -69,6 +75,7 @@ public class UserDao {
             }
         }
     }
+
     @SneakyThrows
     public static List<User> allUsers() {
         List<User> users = new ArrayList<>();

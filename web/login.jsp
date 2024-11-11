@@ -10,6 +10,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
+            background-image: url('https://i.pinimg.com/736x/3f/e5/5a/3fe55aa61d31ea9b923332355926492e.jpg');
             text-align: center;
             position: relative;
         }

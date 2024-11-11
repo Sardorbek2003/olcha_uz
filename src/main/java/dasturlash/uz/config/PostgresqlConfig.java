@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 
 public class PostgresqlConfig {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/Jakarta_lesson_1";
+    private static final String URL = "jdbc:postgresql://localhost:5432/olcha_uz";
     private static final String USER = "Sardorbek";
     private static final String PASSWORD = "sardor0304";
 
