@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/update_product")
-public class ProductUpdateController extends HttpServlet {
+public class ProductUpdateController extends BaseProductController {
     private ProductDAO productDAO;
 
     @Override
@@ -38,9 +38,14 @@ public class ProductUpdateController extends HttpServlet {
             descriptionObject.put("type", descriptionTypes[i]);
             descriptionArray.put(descriptionObject);
         }
+        String updateBy = getUsername(request);
+        if (updateBy == null) {
+            response.sendRedirect("/login");
+            return;
+        }
 
         // Mahsulotni yangilash
-        Product product = new Product(id, name, price, descriptionArray.toString(), active, "createdDateHere", "updatedDateHere");
+        Product product = new Product(id, name, price, descriptionArray.toString(), active, updateBy);
         System.out.println(product);
         productDAO.updateProduct(product);
 

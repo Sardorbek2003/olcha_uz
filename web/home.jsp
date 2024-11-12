@@ -9,7 +9,7 @@
       height: 100vh;
       margin: 0;
       font-family: Arial, sans-serif;
-      background-image: url('https://izvvrasadnik.rs/wp-content/uploads/2018/10/visnja.png'); /* To'g'ri rasm URL manzili */
+      background-image: url('/image');
       background-size: cover;
       background-position: center;
       text-align: center;

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/category_list")
-public class CategoryListController extends HttpServlet {
+public class CategoryListController extends BaseCategory_Controller {
 
     private final CategoryDAO categoryDao = new CategoryDAO();
 

@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/add_product")
-public class ProductAddController extends HttpServlet {
+public class ProductAddController extends BaseProductController {
     private ProductDAO productDAO;
 
     @Override
@@ -26,7 +26,11 @@ public class ProductAddController extends HttpServlet {
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
         boolean active = Boolean.parseBoolean(request.getParameter("active"));
-
+        String createdBy = getUsername(request);
+               if (createdBy == null) {
+            response.sendRedirect("/login");
+            return;
+        }
 
         String[] descriptionNames = request.getParameterValues("descriptionName[]");
         String[] descriptionTypes = request.getParameterValues("descriptionType[]");
@@ -39,7 +43,7 @@ public class ProductAddController extends HttpServlet {
         }
 
 
-        Product product = new Product(name, price, active, descriptionArray.toString());
+        Product product = new Product(name, price, active,createdBy, descriptionArray.toString());
 
         // Mahsulotni qo'shish
         productDAO.addProduct(product);

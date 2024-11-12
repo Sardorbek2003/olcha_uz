@@ -32,7 +32,7 @@ public class CategoryDAO {
     }
 
     public void addCategory(Category_ category) {
-        String query = "INSERT INTO category (name, parent_id, activ, created_date, updated_date) VALUES (?, ?, ?, NOW(), NOW())";
+        String query = "INSERT INTO category (name, parent_id, activ, created_date, updated_date,createdBy,updatedBy) VALUES (?, ?, ?, NOW(), NOW(),?, ?)";
 
         try (Connection connection = PostgresqlConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -40,6 +40,9 @@ public class CategoryDAO {
             preparedStatement.setString(1, category.getName());
             preparedStatement.setInt(2, category.getParentId());
             preparedStatement.setBoolean(3, category.isActiv());
+            preparedStatement.setString(4, category.getCreatedBy());
+            preparedStatement.setString(5, category.getUpdatedBy());
+
 
             preparedStatement.executeUpdate();
 
@@ -49,7 +52,7 @@ public class CategoryDAO {
     }
 
     public void updateCategory(Category_ category) {
-        String query = "UPDATE category SET name = ?, parent_id = ?, activ = ?, updated_date = NOW() WHERE id = ?";
+        String query = "UPDATE category SET name = ?, parent_id = ?, activ = ?, updated_by, updated_date = NOW() WHERE id = ?";
 
         try (Connection connection = PostgresqlConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -57,7 +60,8 @@ public class CategoryDAO {
             preparedStatement.setString(1, category.getName());
             preparedStatement.setInt(2, category.getParentId());
             preparedStatement.setBoolean(3, category.isActiv());
-            preparedStatement.setInt(4, category.getId());
+            preparedStatement.setString(4, category.getUpdatedBy());
+            preparedStatement.setInt(5, category.getId());
 
             preparedStatement.executeUpdate();
 

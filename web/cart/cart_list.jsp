@@ -7,7 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cart List</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="${pageContext.request.contextPath}/scripts/data_format.js"></script>
   <style>
+
     .sidebar {
       width: 200px;
       background-color: #333;
@@ -86,8 +88,8 @@
         <td>${cart.product_id}</td>
         <td>${cart.quantity}</td>
         <td>${cart.activ ? 'Yes' : 'No'}</td>
-        <td>${cart.created_date}</td>
-        <td>${cart.updated_date}</td>
+        <td class = "date-field">${cart.created_date}</td>
+        <td class = "date-field">${cart.updated_date}</td>
         <td>
           <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-id="${cart.id}">Delete</a>
           <a href="#" class="btn btn-success" data-toggle="modal" data-target="#updateModal"

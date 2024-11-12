@@ -16,6 +16,8 @@ public class Category_ {
     private String name;
     private int  parentId;
     private boolean activ;
+    private String createdBy;
+    private String updatedBy;
     private LocalDateTime created_date;
     private LocalDateTime updated_date;
 
@@ -28,5 +30,13 @@ public class Category_ {
         this.created_date = resultSet.getTimestamp("created_date").toLocalDateTime();
         this.updated_date = resultSet.getTimestamp("updated_date").toLocalDateTime();
 
+    }
+
+    public Category_(String name, int parentId, boolean active, String createBy) {
+        this.name = name;
+        this.parentId = parentId;
+        this.activ = active;
+        this.createdBy = createBy;
+        this.updatedBy = createBy;
     }
 }

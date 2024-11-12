@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/category")
-public class CategoryController extends HttpServlet {
+public class CategoryController extends BaseCategory_Controller {
     private final CategoryDAO categoryDAO = new CategoryDAO();
 
     @Override
@@ -27,16 +27,24 @@ public class CategoryController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         if ("add".equals(action)) {
+            String createBy = getUsername(req);
+            if (createBy == null) {
+                resp.sendRedirect("/login");
+            }
             String name = req.getParameter("name");
             int parentId = Integer.parseInt(req.getParameter("parentId"));
             boolean active = Boolean.parseBoolean(req.getParameter("active"));
-            categoryDAO.addCategory(new Category_(0, name, parentId, active, null, null));
+            categoryDAO.addCategory(new Category_(name, parentId, active,createBy));
         } else if ("update".equals(action)) {
+            String updateBy = getUsername(req);
+            if (updateBy == null) {
+                resp.sendRedirect("/login");
+            }
             int id = Integer.parseInt(req.getParameter("id"));
             String name = req.getParameter("name");
             int parentId = Integer.parseInt(req.getParameter("parentId"));
             boolean active = Boolean.parseBoolean(req.getParameter("active"));
-            categoryDAO.updateCategory(new Category_(id, name, parentId, active, null, null));
+            categoryDAO.updateCategory(new Category_(name, parentId, active,updateBy));
         } else if ("delete".equals(action)) {
             int id = Integer.parseInt(req.getParameter("categoryId"));
             categoryDAO.deleteCategoryById(id);

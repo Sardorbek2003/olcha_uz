@@ -1,3 +1,4 @@
+import dasturlash.uz.controller.product.BaseProductController;
 import dasturlash.uz.dao.ProductDAO;
 import dasturlash.uz.entity.Product;
 import org.json.JSONArray;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/product_list")
-public class ProductListController extends HttpServlet {
+public class ProductListController extends BaseProductController {
     private ProductDAO productDAO;
 
     @Override

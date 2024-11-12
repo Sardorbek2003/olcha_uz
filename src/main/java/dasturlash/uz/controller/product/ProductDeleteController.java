@@ -17,7 +17,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 @WebServlet("/delete_product")
-public class ProductDeleteController extends HttpServlet {
+public class ProductDeleteController extends BaseProductController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));

@@ -6,40 +6,70 @@
     <meta charset="UTF-8">
     <title>Category List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="${pageContext.request.contextPath}/scripts/data_format.js"></script>
     <style>
-        .sidebar {
-            width: 200px;
-            background-color: #333;
-            color: white;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            gap: 15px;
-        }
-
-        .sidebar form {
-            width: 100%;
-            margin: 0;
-        }
-
-        .sidebar button {
-            width: 100%;
+        th, td {
+            text-align: center;
+            vertical-align: middle;
             padding: 10px;
-            border: none;
-            background-color: #444;
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
+            font-weight: normal;
         }
 
-        .sidebar button:hover {
-            background-color: #555;
+        /* Ustun kengligini moslash */
+        th, td {
+            width: 120px; /* Ustun kengligini standart qiymatga o‘rnatish */
         }
+
+        /* Jadvalni to‘liq kenglikda ko‘rsatish */
+        .table {
+            width: 100%;
+            table-layout: fixed; /* Har bir ustun kengligini tenglashtirish */
+            border-collapse: collapse;
+        }
+
+        /* Har bir ustun uchun kichikroq kenglikda ishlash */
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 50px; /* ID ustunining kengligini moslashtirish */
+        }
+
+        th:nth-child(9),
+        td:nth-child(9) {
+            width: 150px; /* Harakatlar ustuni uchun kenglik */
+        }
+    .sidebar {
+        width: 200px;
+        background-color: #333;
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .sidebar form {
+        width: 100%;
+        margin: 0;
+    }
+
+    .sidebar button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: #444;
+        color: white;
+        font-size: 1em;
+        cursor: pointer;
+    }
+
+    .sidebar button:hover {
+        background-color: #555;
+    }
     </style>
 </head>
 <body>
@@ -70,6 +100,10 @@
             <th>Name</th>
             <th>Parent ID</th>
             <th>Active</th>
+            <th>Created by</th>
+            <th>Updated by</th>
+            <th>Created date</th>
+            <th>Updated date</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -80,12 +114,18 @@
                 <td>${category.name}</td>
                 <td>${category.parentId}</td>
                 <td>${category.activ ? 'Yes' : 'No'}</td>
+                <td>${category.createdBy}</td>
+                <td>${category.updatedBy}</td>
+                <td class="date-field">${category.created_date}</td>
+                <td class="date-field">${category.updated_date}</td> <!-- Nomi to'g'rilandi -->
                 <td>
-                    <button class="btn btn-success updateCategoryBtn" data-id="${category.id}"
-                            data-name="${category.name}" data-parent-id="${category.parentId}"
-                            data-active="${category.activ}">Update
-                    </button>
-                    <button class="btn btn-danger deleteCategoryBtn" data-id="${category.id}">Delete</button>
+                    <div class="btn-group">
+                        <button class="btn btn-success updateCategoryBtn" data-id="${category.id}"
+                                data-name="${category.name}" data-parent-id="${category.parentId}"
+                                data-active="${category.activ}">Update
+                        </button>
+                        <button class="btn btn-danger deleteCategoryBtn" data-id="${category.id}">Delete</button>
+                    </div>
                 </td>
             </tr>
         </c:forEach>
@@ -93,6 +133,7 @@
     </table>
     <button id="addCategoryBtn" class="btn btn-primary">Add Category</button>
 </div>
+
 
 <!-- Add Category Modal -->
 <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog">
@@ -198,6 +239,18 @@
                 }).done(function () {
                     location.reload();
                 });
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateFields = document.querySelectorAll('.date-field');
+        dateFields.forEach(field => {
+            const dateText = field.textContent.trim();
+            if (dateText) {
+                const date = new Date(dateText);
+                field.textContent = date.toISOString().split('T')[0]; // Yil-oy-kun formatida
             }
         });
     });
