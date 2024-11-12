@@ -16,7 +16,7 @@ public class CartDAO {
 
             statement.setInt(1, cart.getUser_id());
             statement.setInt(2, cart.getProduct_id());
-            statement.setBoolean(3, cart.isActiv());
+            statement.setBoolean(3, cart.isActive());
             statement.setInt(4, cart.getQuantity());
 
             statement.executeUpdate();
@@ -38,19 +38,28 @@ public class CartDAO {
 
     public List<Cart> getAllCarts() {
         List<Cart> cartList = new ArrayList<>();
+        String query = "SELECT c.id, u.name as user_name," +
+                        " u.email as user_email," +
+                        " p.name as product_name," +
+                        " c.quantity, c.activ, c.created_date, c.updated_date " +
+                        "FROM cart c " +
+                        "JOIN users u ON c.user_id = u.id " +
+                        "JOIN products p ON c.product_id = p.id";
+
         try (Connection connection = PostgresqlConfig.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM cart");
+             PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 Cart cart = new Cart();
                 cart.setId(resultSet.getInt("id"));
-                cart.setUser_id(resultSet.getInt("user_id"));
-                cart.setProduct_id(resultSet.getInt("product_id"));
+                cart.setUser_name(resultSet.getString("user_name"));
+                cart.setUser_email(resultSet.getString("user_email"));
+                cart.setProduct_name(resultSet.getString("product_name"));
                 cart.setQuantity(resultSet.getInt("quantity"));
-                cart.setActiv(resultSet.getBoolean("activ"));
-                cart.setCreated_date((resultSet.getTimestamp("created_date")).toString());
-                cart.setUpdated_date((resultSet.getTimestamp("updated_date")).toString());
+                cart.setActive(resultSet.getBoolean("activ"));
+                cart.setCreated_date(resultSet.getTimestamp("created_date").toString());
+                cart.setUpdated_date(resultSet.getTimestamp("updated_date").toString());
                 cartList.add(cart);
             }
         } catch (Exception e) {
@@ -68,7 +77,7 @@ public class CartDAO {
 
             statement.setInt(1, cart.getUser_id());
             statement.setInt(2, cart.getProduct_id());
-            statement.setBoolean(3, cart.isActiv());
+            statement.setBoolean(3, cart.isActive());
             statement.setInt(4, cart.getQuantity());
             statement.setTimestamp(5,timestampNow);
 

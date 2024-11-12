@@ -19,9 +19,9 @@ public class CartListController extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Cart> cards = cartDAO.getAllCarts();
-        System.out.println(cards);
-        req.setAttribute("carts", cards);
+        List<Cart> carts = cartDAO.getAllCarts();
+        System.out.println(carts);
+        req.setAttribute("carts", carts);
         req.getRequestDispatcher("cart/cart_list.jsp").forward(req, resp);
     }
 }

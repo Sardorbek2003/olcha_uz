@@ -36,7 +36,7 @@ public class CartController extends HttpServlet {
             Cart cart = new Cart();
             cart.setUser_id(Integer.parseInt(req.getParameter("user_id")));
             cart.setProduct_id(Integer.parseInt(req.getParameter("product_id")));
-            cart.setActiv(Boolean.parseBoolean(req.getParameter("activ")));
+            cart.setActive(Boolean.parseBoolean(req.getParameter("activ")));
             cart.setQuantity(Integer.parseInt(req.getParameter("quantity")));
             cartDAO.createCart(cart);
         } else if ("update".equals(action)) {
@@ -44,7 +44,7 @@ public class CartController extends HttpServlet {
             cart.setId(Integer.parseInt(req.getParameter("id")));
             cart.setUser_id(Integer.parseInt(req.getParameter("user_id")));
             cart.setProduct_id(Integer.parseInt(req.getParameter("product_id")));
-            cart.setActiv(Boolean.parseBoolean(req.getParameter("activ")));
+            cart.setActive(Boolean.parseBoolean(req.getParameter("activ")));
             cart.setQuantity(Integer.parseInt(req.getParameter("quantity")));
 
             cartDAO.updateCart(cart);

@@ -69,8 +69,9 @@
     <thead>
     <tr>
       <th>ID</th>
-      <th>User ID</th>
-      <th>Product ID</th>
+      <th>User Name</th>
+      <th>User Email</th>
+      <th>Product Name</th>
       <th>Quantity</th>
       <th>Active</th>
       <th>Created Date</th>
@@ -82,8 +83,9 @@
     <c:forEach var="cart" items="${carts}">
       <tr>
         <td>${cart.id}</td>
-        <td>${cart.user_id}</td>
-        <td>${cart.product_id}</td>
+        <td>${cart.user_name}</td>
+        <td>${cart.user_email}</td>
+        <td>${cart.product_name}</td>
         <td>${cart.quantity}</td>
         <td>${cart.activ ? 'Yes' : 'No'}</td>
         <td>${cart.created_date}</td>
@@ -91,7 +93,7 @@
         <td>
           <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-id="${cart.id}">Delete</a>
           <a href="#" class="btn btn-success" data-toggle="modal" data-target="#updateModal"
-             data-id="${cart.id}" data-userid="${cart.user_id}" data-productid="${cart.product_id}" data-quantity="${cart.quantity}"
+             data-id="${cart.id}" data-userid="${cart.user_name}" data-productid="${cart.product_name}" data-quantity="${cart.quantity}"
              data-activ="${cart.activ}" data-createddate="${cart.created_date}" data-updateddate="${cart.updated_date}">Update</a>
         </td>
       </tr>
