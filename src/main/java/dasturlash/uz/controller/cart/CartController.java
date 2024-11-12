@@ -4,13 +4,10 @@ import dasturlash.uz.dao.CartDAO;
 import dasturlash.uz.entity.Cart;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 @WebServlet("/cart")
 public class CartController extends HttpServlet {

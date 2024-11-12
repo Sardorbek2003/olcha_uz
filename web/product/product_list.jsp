@@ -250,13 +250,14 @@
 
             // Loop through descriptions and add them to the modal
             descriptions.forEach(function (desc) {
-                $('#update-description-fields').append(`
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" name="descriptionName[]" placeholder="Name" value="${desc.name}" required>
-                    <input type="text" class="form-control" name="descriptionType[]" placeholder="Type" value="${desc.type}" required>
-                </div>
-            `);
+                $('#update-description-fields').append(
+                    '<div class="input-group mb-2">' +
+                    '<input type="text" class="form-control" name="descriptionName[]" placeholder="Name" value="' + desc.name + '" required>' +
+                    '<input type="text" class="form-control" name="descriptionType[]" placeholder="Type" value="' + desc.type + '" required>' +
+                    '</div>'
+                );
             });
+
 
             // Show the modal
             $('#updateProductModal').modal('show');
@@ -265,21 +266,21 @@
 
         // Add new description field
         $('#addDescriptionField').on('click', function () {
-            $('#description-fields').append(`
-        <div class="input-group mb-2">
-          <input type="text" class="form-control" name="descriptionName[]" placeholder="Name" required>
-          <input type="text" class="form-control" name="descriptionType[]" placeholder="Type" required>
-        </div>
-      `);
+            $('#description-fields').append(
+                '<div class="input-group mb-2">' +
+                '<input type="text" class="form-control" name="descriptionName[]" placeholder="Name" required>' +
+                '<input type="text" class="form-control" name="descriptionType[]" placeholder="Type" required>' +
+                '</div>'
+            );
         });
 
         $('#addUpdateDescriptionField').on('click', function () {
-            $('#update-description-fields').append(`
-      <div class="input-group mb-2">
-        <input type="text" class="form-control" name="descriptionName[]" placeholder="Name" required>
-        <input type="text" class="form-control" name="descriptionType[]" placeholder="Type" required>
-      </div>
-    `);
+            $('#update-description-fields').append(
+                '<div class="input-group mb-2">' +
+                '<input type="text" class="form-control" name="descriptionName[]" placeholder="Name" required>' +
+                '<input type="text" class="form-control" name="descriptionType[]" placeholder="Type" required>' +
+                '</div>'
+            );
         });
     });
 </script>

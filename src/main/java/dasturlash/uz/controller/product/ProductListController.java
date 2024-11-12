@@ -1,15 +1,14 @@
-import dasturlash.uz.dao.ProductDAO;
-import dasturlash.uz.entity.Product;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+package dasturlash.uz.controller.product;
 
-import java.io.IOException;
-import java.util.List;
+import dasturlash.uz.dao.*;
+import dasturlash.uz.entity.*;
+import org.json.*;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.*;
+import jakarta.servlet.http.*;
+
+import java.io.*;
+import java.util.*;
 
 @WebServlet("/product_list")
 public class ProductListController extends HttpServlet {

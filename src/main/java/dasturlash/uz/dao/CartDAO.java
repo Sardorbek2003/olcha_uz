@@ -4,10 +4,8 @@ import dasturlash.uz.config.PostgresqlConfig;
 import dasturlash.uz.entity.Cart;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.time.LocalDateTime;
-import java.sql.Timestamp;
+import java.util.*;
+import java.time.*;
 
 public class CartDAO {
 

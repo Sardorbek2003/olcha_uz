@@ -39,7 +39,6 @@ public class ProductUpdateController extends HttpServlet {
             descriptionArray.put(descriptionObject);
         }
 
-        // Mahsulotni yangilash
         Product product = new Product(id, name, price, descriptionArray.toString(), active, "createdDateHere", "updatedDateHere");
         System.out.println(product);
         productDAO.updateProduct(product);
