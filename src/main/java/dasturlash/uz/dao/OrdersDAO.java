@@ -3,13 +3,9 @@ package dasturlash.uz.dao;
 import dasturlash.uz.config.PostgresqlConfig;
 import dasturlash.uz.entity.Orders;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.time.LocalDateTime;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.util.*;
+import java.time.*;
 
 
 public class OrdersDAO {

@@ -3,11 +3,8 @@ package dasturlash.uz.dao;
 import dasturlash.uz.config.PostgresqlConfig;
 import dasturlash.uz.entity.Category_;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
 public class CategoryDAO {
 

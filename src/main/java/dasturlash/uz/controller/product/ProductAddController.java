@@ -1,16 +1,12 @@
 package dasturlash.uz.controller.product;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import dasturlash.uz.dao.ProductDAO;
-import dasturlash.uz.entity.Product;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
+import org.json.*;
+import dasturlash.uz.dao.*;
+import dasturlash.uz.entity.*;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.*;
+import jakarta.servlet.http.*;
+import java.io.*;
 
 @WebServlet("/add_product")
 public class ProductAddController extends BaseProductController {
@@ -45,9 +41,8 @@ public class ProductAddController extends BaseProductController {
 
         Product product = new Product(name, price, active,createdBy, descriptionArray.toString());
 
-        // Mahsulotni qo'shish
         productDAO.addProduct(product);
-        response.setStatus(HttpServletResponse.SC_OK); // Muvaffaqiyatli status
+        response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("/product_list");
     }
 }

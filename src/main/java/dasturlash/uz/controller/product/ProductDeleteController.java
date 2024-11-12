@@ -1,21 +1,11 @@
 package dasturlash.uz.controller.product;
 
-import dasturlash.uz.dao.ProductDAO;
-import dasturlash.uz.dao.UserDao;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.sql.*;
-import jakarta.servlet.annotation.WebServlet;
-import java.io.IOException;
-import dasturlash.uz.config.PostgresqlConfig;
-import dasturlash.uz.entity.Product;
-import lombok.SneakyThrows;
+import dasturlash.uz.dao.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
+import java.io.*;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 @WebServlet("/delete_product")
 public class ProductDeleteController extends BaseProductController {
     @Override

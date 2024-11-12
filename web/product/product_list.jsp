@@ -8,17 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="${pageContext.request.contextPath}/scripts/data_format.js"></script>
     <style>
-
-
-
-
-        .scrollable-description {
-            max-width: 250px;
-            overflow-x: auto;
-        }
-
         .sidebar {
             width: 200px;
             background-color: #333;
@@ -59,8 +49,14 @@
         }
 
         .table td, .table th {
-            vertical-align: middle;
             white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        .scrollable-description {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -94,8 +90,6 @@
             <th>Price</th>
             <th>Description</th>
             <th>Active</th>
-            <th>Created By</th>
-            <th>Updated By</th>
             <th>Created Date</th>
             <th>Updated Date</th>
             <th>Actions</th>
@@ -109,10 +103,8 @@
                 <td>${product.price}</td>
                 <td class="scrollable-description">${product.description}</td>
                 <td>${product.active ? 'Yes' : 'No'}</td>
-                <td>${product.createdBy}</td>
-                <td>${product.updatedBy}</td>
-                <td class="date-field">${product.createdDate}</td>
-                <td class="date-field">${product.updatedDate}</td>
+                <td>${product.createdDate}</td>
+                <td>${product.updatedDate}</td>
                 <td>
                     <a href="<%= request.getContextPath() %>/delete_product?id=${product.id}"
                        class="btn btn-danger btn-sm">Delete</a>
@@ -121,11 +113,7 @@
                             data-name="${product.name}"
                             data-price="${product.price}"
                             data-active="${product.active}"
-                            data-description="${product.description}"
-                            data-createdBy="${product.createdBy}"
-                            data-updatedBy="${product.updatedBy}"
-                            data-createdDate="${product.createdDate}"
-                            data-updatedDate="${product.updatedDate}">Update
+                            data-description="${product.description}">Update
                     </button>
                 </td>
             </tr>
@@ -166,8 +154,10 @@
                     <div class="form-group" id="description-fields">
                         <label>Description</label>
                         <div class="input-group mb-2">
-                            <input type="text" class="form-control" name="descriptionName[]" placeholder="Name" required>
-                            <input type="text" class="form-control" name="descriptionType[]" placeholder="Type" required>
+                            <input type="text" class="form-control" name="descriptionName[]" placeholder="Name"
+                                   required>
+                            <input type="text" class="form-control" name="descriptionType[]" placeholder="Type"
+                                   required>
                         </div>
                     </div>
                     <button type="button" id="addDescriptionField" class="btn btn-secondary">Add Description</button>
@@ -209,13 +199,14 @@
                             <option value="false">No</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="updateDescription">Description</label>
-                        <input type="text" class="form-control" id="updateDescription" name="description" value="">
+                    <div class="form-group" id="update-description-fields">
+                        <label>Description</label>
                     </div>
+                    <button type="button" id="addUpdateDescriptionField" class="btn btn-secondary">Add Description
+                    </button>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Update Product</button>
+                    <button type="submit" class="btn btn-success">Update Product</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </form>
@@ -223,36 +214,74 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
-    document.querySelectorAll('.updateProductBtn').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const product = e.target.dataset;
-            document.getElementById('updateId').value = product.id;
-            document.getElementById('updateName').value = product.name;
-            document.getElementById('updatePrice').value = product.price;
-            document.getElementById('updateActive').value = product.active;
-            document.getElementById('updateDescription').value = product.description;
+    $(document).ready(function () {
+        // Show Add Product Modal
+        $('#addProductBtn').on('click', function () {
+            $('#addProductModal').modal('show');
+        });
+
+
+        $('.updateProductBtn').on('click', function () {
+            var productId = $(this).data('id');
+            var productName = $(this).data('name');
+            var productPrice = $(this).data('price');
+            var productActive = $(this).data('active');
+            var productDescription = $(this).data('description');
+
+            // Set modal fields
+            $('#updateId').val(productId);
+            $('#updateName').val(productName);
+            $('#updatePrice').val(productPrice);
+            $('#updateActive').val(productActive);
+
+            // Clear previous description fields
+            $('#update-description-fields').html('');
+
+            // Check if productDescription is valid JSON, otherwise use empty array
+            var descriptions = [];
+            try {
+                descriptions = productDescription ? JSON.parse(productDescription) : [];
+            } catch (e) {
+                console.error("Invalid JSON format for description", e);
+            }
+
+            // Loop through descriptions and add them to the modal
+            descriptions.forEach(function (desc) {
+                $('#update-description-fields').append(
+                    '<div class="input-group mb-2">' +
+                    '<input type="text" class="form-control" name="descriptionName[]" placeholder="Name" value="' + desc.name + '" required>' +
+                    '<input type="text" class="form-control" name="descriptionType[]" placeholder="Type" value="' + desc.type + '" required>' +
+                    '</div>'
+                );
+            });
+
+
+            // Show the modal
             $('#updateProductModal').modal('show');
         });
-    });
 
-    document.getElementById('addProductBtn').addEventListener('click', () => {
-        $('#addProductModal').modal('show');
-    });
 
-    document.getElementById('addDescriptionField').addEventListener('click', () => {
-        const descriptionFields = document.getElementById('description-fields');
-        const newField = document.createElement('div');
-        newField.classList.add('input-group', 'mb-2');
-        newField.innerHTML = `
-            <input type="text" class="form-control" name="descriptionName[]" placeholder="Name" required>
-            <input type="text" class="form-control" name="descriptionType[]" placeholder="Type" required>
-        `;
-        descriptionFields.appendChild(newField);
+        // Add new description field
+        $('#addDescriptionField').on('click', function () {
+            $('#description-fields').append(
+                '<div class="input-group mb-2">' +
+                '<input type="text" class="form-control" name="descriptionName[]" placeholder="Name" required>' +
+                '<input type="text" class="form-control" name="descriptionType[]" placeholder="Type" required>' +
+                '</div>'
+            );
+        });
+
+        $('#addUpdateDescriptionField').on('click', function () {
+            $('#update-description-fields').append(
+                '<div class="input-group mb-2">' +
+                '<input type="text" class="form-control" name="descriptionName[]" placeholder="Name" required>' +
+                '<input type="text" class="form-control" name="descriptionType[]" placeholder="Type" required>' +
+                '</div>'
+            );
+        });
     });
 </script>
 </body>

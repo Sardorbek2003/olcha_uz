@@ -5,9 +5,8 @@ import dasturlash.uz.entity.Product;
 import lombok.SneakyThrows;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.*;
+import java.util.*;
 
 public class ProductDAO {
 

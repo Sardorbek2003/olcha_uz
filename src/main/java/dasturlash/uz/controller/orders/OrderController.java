@@ -1,13 +1,11 @@
 package dasturlash.uz.controller.orders;
 
-import java.io.IOException;
-import dasturlash.uz.dao.OrdersDAO;
-import dasturlash.uz.entity.Orders;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.*;
+import dasturlash.uz.dao.*;
+import dasturlash.uz.entity.*;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.*;
+import jakarta.servlet.http.*;
 
 import java.util.List;
 
