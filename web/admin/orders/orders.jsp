@@ -42,6 +42,16 @@
       margin-left: 220px;
       padding-top: 20px;
     }
+    table td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 250px;
+    }
+    table td.scrollable {
+      max-width: 300px;
+      overflow: auto;
+    }
   </style>
 </head>
 <body>
@@ -71,6 +81,8 @@
     <tr>
       <th>ID</th>
       <th>User ID</th>
+      <th>User name</th>
+      <th>User email</th>
       <th>Status</th>
       <th>Active</th>
       <th>Created Date</th>
@@ -81,15 +93,17 @@
     <tbody>
     <c:forEach var="order" items="${orders}">
       <tr>
-        <td>${order.id}</td>
-        <td>${order.user_id}</td>
-        <td>${order.status}</td>
-        <td>${order.activ ? 'Yes' : 'No'}</td>
-        <td>${order.created_date}</td>
-        <td>${order.updated_date}</td>
+        <td>${order.order.id}</td>
+        <td>${order.user.id}</td>
+        <td>${order.user.name}</td>
+        <td class="scrollable">${order.user.email}</td>
+        <td>${order.order.status}</td>
+        <td>${order.order.activ ? 'Yes' : 'No'}</td>
+        <td>${order.order.created_date}</td>
+        <td>${order.order.updated_date}</td>
         <td>
-          <a href="<%= request.getContextPath() %>/order?action=delete&id=${order.id}" class="btn btn-danger">Delete</a>
-          <button class="btn btn-success" data-toggle="modal" data-target="#updateModal${order.id}">Update</button>
+          <a href="<%= request.getContextPath() %>/admin/orders?action=delete&id=${order.order.id}" class="btn btn-danger">Delete</a>
+          <button class="btn btn-success" data-toggle="modal" data-target="#updateModal${order.order.id}">Update</button>
         </td>
       </tr>
     </c:forEach>
@@ -102,7 +116,7 @@
   <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <form action="<%= request.getContextPath() %>/order" method="post">
+        <form action="<%= request.getContextPath() %>/admin/orders" method="post">
           <div class="modal-header">
             <h5 class="modal-title" id="addModalLabel">Add New Order</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -138,10 +152,10 @@
 
   <!-- Update Order Modals -->
   <c:forEach var="order" items="${orders}">
-    <div class="modal fade" id="updateModal${order.id}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateModal${order.order.id}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <form action="<%= request.getContextPath() %>/order" method="post">
+          <form action="<%= request.getContextPath() %>/admin/orders" method="post">
             <div class="modal-header">
               <h5 class="modal-title" id="updateModalLabel">Update Order</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -150,20 +164,20 @@
             </div>
             <div class="modal-body">
               <input type="hidden" name="action" value="update">
-              <input type="hidden" name="id" value="${order.id}">
+              <input type="hidden" name="id" value="${order.order.id}">
               <div class="form-group">
                 <label>User ID:</label>
-                <input type="number" class="form-control" name="user_id" value="${order.user_id}" required>
+                <input type="number" class="form-control" name="user_id" value="${order.user.id}" required>
               </div>
               <div class="form-group">
                 <label>Status:</label>
-                <input type="text" class="form-control" name="status" value="${order.status}" required>
+                <input type="text" class="form-control" name="status" value="${order.order.status}" required>
               </div>
               <div class="form-group">
                 <label>Active:</label>
                 <select class="form-control" name="activ" required>
-                  <option value="true" ${order.activ ? 'selected' : ''}>Yes</option>
-                  <option value="false" ${!order.activ ? 'selected' : ''}>No</option>
+                  <option value="true" ${order.order.activ ? 'selected' : ''}>Yes</option>
+                  <option value="false" ${!order.order.activ ? 'selected' : ''}>No</option>
                 </select>
               </div>
             </div>

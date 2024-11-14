@@ -1,7 +1,9 @@
 package dasturlash.uz.dao;
 
 import dasturlash.uz.config.PostgresqlConfig;
+import dasturlash.uz.entity.OrderUser;
 import dasturlash.uz.entity.Orders;
+import dasturlash.uz.entity.User;
 
 import java.sql.*;
 import java.util.*;
@@ -10,8 +12,8 @@ import java.time.*;
 
 public class OrdersDAO {
 
-    public List<Orders> getAllOrders() {
-        List<Orders> orders = new ArrayList<>();
+    public List<OrderUser> getAllOrders() {
+        List<OrderUser> orders = new ArrayList<>();
         String query = "SELECT id, user_id, status, activ, created_date, updated_date FROM orders";
 
         try (Connection connection = PostgresqlConfig.getConnection();
@@ -19,21 +21,26 @@ public class OrdersDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
+                User user = getUserById(userId);
+
                 Orders order = new Orders(
                         resultSet.getInt("id"),
-                        resultSet.getInt("user_id"),
+                        userId,
                         resultSet.getString("status"),
                         resultSet.getBoolean("activ"),
                         resultSet.getString("created_date"),
                         resultSet.getString("updated_date")
                 );
-                orders.add(order);
+                OrderUser orderUser = new OrderUser(user,order);
+                orders.add(orderUser);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return orders;
     }
+
 
     public void addOrder(Orders order) {
         String query = "INSERT INTO orders (user_id, status, activ) VALUES (?, ?, ?)";
@@ -85,4 +92,24 @@ public class OrdersDAO {
             e.printStackTrace();
         }
     }
+    public User getUserById(int userId) {
+        User user = null;
+        String query = "SELECT id, name, email FROM users WHERE id = ?";
+
+        try (Connection connection = PostgresqlConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = new User(resultSet.getInt("id"),resultSet.getString("name"),
+                            resultSet.getString("email"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
 }

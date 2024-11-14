@@ -44,6 +44,16 @@
       margin-left: 220px;
       padding-top: 20px;
     }
+    table td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 250px;
+    }
+    table td.scrollable {
+      max-width: 300px;
+      overflow: auto;
+    }
   </style>
 </head>
 <body>
@@ -89,14 +99,14 @@
         <td>${cart.user_email}</td>
         <td>${cart.product_name}</td>
         <td>${cart.quantity}</td>
-        <td>${cart.activ ? 'Yes' : 'No'}</td>
+        <td>${cart.active ? 'Yes' : 'No'}</td>
         <td class = "date-field">${cart.created_date}</td>
         <td class = "date-field">${cart.updated_date}</td>
         <td>
           <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-id="${cart.id}">Delete</a>
           <a href="#" class="btn btn-success" data-toggle="modal" data-target="#updateModal"
              data-id="${cart.id}" data-userid="${cart.user_name}" data-productid="${cart.product_name}" data-quantity="${cart.quantity}"
-             data-activ="${cart.activ}" data-createddate="${cart.created_date}" data-updateddate="${cart.updated_date}">Update</a>
+             data-activ="${cart.active}" data-createddate="${cart.created_date}" data-updateddate="${cart.updated_date}">Update</a>
         </td>
       </tr>
     </c:forEach>
@@ -109,7 +119,7 @@
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="<%= request.getContextPath() %>/cart" method="post">
+      <form action="<%= request.getContextPath() %>/admin/cart" method="post">
         <div class="modal-header">
           <h5 class="modal-title">Add Cart</h5>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -149,7 +159,7 @@
 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="<%= request.getContextPath() %>/cart" method="post">
+      <form action="<%= request.getContextPath() %>/admin/cart" method="post">
         <div class="modal-header">
           <h5 class="modal-title">Update Cart</h5>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -191,7 +201,7 @@
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="<%= request.getContextPath() %>/cart" method="get">
+      <form action="<%= request.getContextPath() %>/admin/cart" method="get">
         <div class="modal-header">
           <h5 class="modal-title">Delete Cart</h5>
           <button type="button" class="close" data-dismiss="modal">&times;</button>

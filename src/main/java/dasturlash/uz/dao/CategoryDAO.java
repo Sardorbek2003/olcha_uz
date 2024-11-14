@@ -10,7 +10,7 @@ public class CategoryDAO {
 
     public List<Category_> getAllCategory() {
         List<Category_> categories = new ArrayList<>();
-        String query = "SELECT id, name, parent_id, activ, created_date, updated_date FROM category";
+        String query = "SELECT * FROM category";
 
         try (Connection connection = PostgresqlConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -29,7 +29,8 @@ public class CategoryDAO {
     }
 
     public void addCategory(Category_ category) {
-        String query = "INSERT INTO category (name, parent_id, activ, created_date, updated_date,createdBy,updatedBy) VALUES (?, ?, ?, NOW(), NOW(),?, ?)";
+        System.out.println(category);
+        String query = "INSERT INTO category (name, parent_id, activ, created_date, updated_date,created_by,updated_by) VALUES (?, ?, ?, NOW(), NOW(),?, ?)";
 
         try (Connection connection = PostgresqlConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {

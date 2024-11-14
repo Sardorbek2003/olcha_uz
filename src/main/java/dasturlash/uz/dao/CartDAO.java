@@ -43,8 +43,8 @@ public class CartDAO {
                         " p.name as product_name," +
                         " c.quantity, c.activ, c.created_date, c.updated_date " +
                         "FROM cart c " +
-                        "JOIN users u ON c.user_id = u.id " +
-                        "JOIN products p ON c.product_id = p.id";
+                        "inner JOIN users u ON c.user_id = u.id " +
+                        "inner JOIN product p ON c.product_id = p.id";
 
         try (Connection connection = PostgresqlConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);

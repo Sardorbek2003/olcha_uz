@@ -27,10 +27,22 @@ public class Category_ {
         this.name = resultSet.getString("name");
         this.parentId = resultSet.getInt("parent_id");
         this.activ = resultSet.getBoolean("activ");
+        this.createdBy = resultSet.getString("created_by");
+        this.updatedBy = resultSet.getString("updated_by");
         this.created_date = resultSet.getTimestamp("created_date").toLocalDateTime();
         this.updated_date = resultSet.getTimestamp("updated_date").toLocalDateTime();
 
     }
+
+    public Category_(int id,String name, int parentId, boolean active, String createBy) {
+        this.id = id;
+        this.name = name;
+        this.parentId = parentId;
+        this.activ = active;
+        this.createdBy = createBy;
+        this.updatedBy = createBy;
+    }
+
 
     public Category_(String name, int parentId, boolean active, String createBy) {
         this.name = name;

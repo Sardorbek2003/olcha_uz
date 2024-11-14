@@ -13,7 +13,6 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("login.jsp").forward(req, resp);
-        System.out.println("saassaas");
 
     }
 
@@ -22,18 +21,22 @@ public class LoginController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         User login = UserDao.login(username, password);
-        System.out.println(login);
         if (login != null) {
-            System.out.println("ds");
+            addUsernameCookie(resp, username);
             if (login.getRole().toString().equals("ADMIN")){
-                System.out.println("admin");
                  resp.sendRedirect("/admin");
             }else {
-                System.out.println("user");
                 resp.sendRedirect("/user");
             }
         } else {
             resp.sendRedirect("/login");
         }
     }
+
+private void addUsernameCookie(HttpServletResponse resp, String username) {
+       Cookie usernameCookie = new Cookie("username", username);
+       resp.addCookie(usernameCookie);
+}
+
+
 }

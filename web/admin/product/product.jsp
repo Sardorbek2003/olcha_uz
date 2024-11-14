@@ -88,11 +88,11 @@
             <th>ID</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Description</th>
             <th>Active</th>
             <th>Created Date</th>
             <th>Updated Date</th>
             <th>Actions</th>
+            <th>Info</th>
         </tr>
         </thead>
         <tbody>
@@ -101,13 +101,15 @@
                 <td>${product.id}</td>
                 <td>${product.name}</td>
                 <td>${product.price}</td>
-                <td class="scrollable-description">${product.description}</td>
                 <td>${product.active ? 'Yes' : 'No'}</td>
                 <td>${product.createdDate}</td>
                 <td>${product.updatedDate}</td>
                 <td>
-                    <a href="<%= request.getContextPath() %>/delete_product?id=${product.id}"
-                       class="btn btn-danger btn-sm">Delete</a>
+                    <form action="<%= request.getContextPath() %>/admin/product" method="post" style="display:inline;">
+                        <input type="hidden" name="action" value="delete"/>
+                        <input type="hidden" name="id" value="${product.id}"/>
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
                     <button class="btn btn-success btn-sm updateProductBtn"
                             data-id="${product.id}"
                             data-name="${product.name}"
@@ -115,6 +117,9 @@
                             data-active="${product.active}"
                             data-description="${product.description}">Update
                     </button>
+                </td>
+                <td>
+                    <button class="btn btn-info btn-sm" onclick="showProductDetails('${product.id}')">...</button>
                 </td>
             </tr>
         </c:forEach>
@@ -134,7 +139,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/add_product" method="post">
+            <form action="/admin/product" method="post">
+                <input type="hidden" name="action" value="add"/>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="name">Product Name</label>
@@ -161,6 +167,15 @@
                         </div>
                     </div>
                     <button type="button" id="addDescriptionField" class="btn btn-secondary">Add Description</button>
+                    <div class="form-group" id="image-fields">
+                        <label>Images</label>
+                        <div class="input-group mb-2">
+                            <input type="file" class="form-control" name="image" placeholder="Image URL"
+                                   accept="image/*">
+                        </div>
+                    </div>
+                    <button type="button" id="addImageField" class="btn btn-secondary">Add Image</button>
+
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Add Product</button>
@@ -181,7 +196,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/update_product" method="post">
+            <form action="<%= request.getContextPath() %>/admin/product" method="post">
+                <input type="hidden" name="action" value="update"/>
                 <input type="hidden" id="updateId" name="id">
                 <div class="modal-body">
                     <div class="form-group">
@@ -214,10 +230,47 @@
     </div>
 </div>
 
+<div class="modal" id="productDetailsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Product Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Description:</h6>
+                <p id="productDescription"></p>
+                <h6>Images:</h6>
+                <div id="productImages"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function () {
+        function showProductDetails(productId) {
+            const product = document.querySelector(`[data-id='${productId}']`);
+            document.getElementById('productDescription').textContent = product.getAttribute('data-description');
+
+            $('#productDetailsModal').modal('show');
+        }
+
+        $('#addImageField').on('click', function () {
+            $('#image-fields').append(
+                '<div class="input-group mb-2">' +
+                '<input type="file" class="form-control" name="image" accept="image/*">' +
+                '</div>'
+            );
+        });
         // Show Add Product Modal
         $('#addProductBtn').on('click', function () {
             $('#addProductModal').modal('show');
@@ -273,6 +326,7 @@
                 '</div>'
             );
         });
+
 
         $('#addUpdateDescriptionField').on('click', function () {
             $('#update-description-fields').append(

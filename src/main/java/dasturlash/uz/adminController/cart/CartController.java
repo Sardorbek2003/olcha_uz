@@ -1,4 +1,4 @@
-package dasturlash.uz.controller.cart;
+package dasturlash.uz.adminController.cart;
 
 import dasturlash.uz.dao.CartDAO;
 import dasturlash.uz.entity.Cart;
@@ -9,7 +9,7 @@ import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.*;
 
-@WebServlet("/cart")
+@WebServlet("/admin/cart")
 public class CartController extends HttpServlet {
     private final CartDAO cartDAO = new CartDAO();
 
@@ -20,11 +20,11 @@ public class CartController extends HttpServlet {
         if ("delete".equals(action)) {
             int id = Integer.parseInt(req.getParameter("id"));
             cartDAO.deleteCart(id);
-            resp.sendRedirect(req.getContextPath() + "/cart");
+            resp.sendRedirect(req.getContextPath() + "/admin/cart");
         } else {
             List<Cart> cartList = cartDAO.getAllCarts();
             req.setAttribute("carts", cartList);
-            req.getRequestDispatcher("cart/cart_list.jsp").forward(req, resp);
+            req.getRequestDispatcher("/admin/cart/cart.jsp").forward(req, resp);
         }
     }
 
@@ -49,6 +49,6 @@ public class CartController extends HttpServlet {
 
             cartDAO.updateCart(cart);
         }
-        resp.sendRedirect(req.getContextPath() + "/cart");
+        resp.sendRedirect(req.getContextPath() + "/admin/cart");
     }
 }

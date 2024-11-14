@@ -16,7 +16,8 @@ public class ProductDAO {
 
     @SneakyThrows
     public void addProduct(Product product)  {
-        String sql = "INSERT INTO product (name, price, active,created_by,updated_by, description) VALUES (?, ?, ?, ?, ?, ?::jsonb)";
+        System.out.println(product.toString());
+        String sql = "INSERT INTO product (name, price, active,created_by,updated_by, description,image) VALUES (?, ?, ?, ?, ?, ?::jsonb,?::jsonb)";
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, product.getName());
             stmt.setInt(2, product.getPrice());
@@ -24,6 +25,7 @@ public class ProductDAO {
             stmt.setString(4, product.getCreatedBy());
             stmt.setString(5, product.getUpdatedBy());
             stmt.setString(6, product.getDescription());
+            stmt.setString(7,product.getImages());
             stmt.executeUpdate();
         }
     }

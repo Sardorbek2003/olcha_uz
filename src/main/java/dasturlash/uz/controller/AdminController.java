@@ -19,16 +19,16 @@ public class AdminController extends HttpServlet {
 
         switch (action) {
             case "category":
-                resp.sendRedirect("/category_list");
+                resp.sendRedirect("admin/category");
                 break;
             case "product":
-                resp.sendRedirect( "/product_list");
+                resp.sendRedirect( "/admin/product");
                 break;
             case "cart":
-                resp.sendRedirect( "/cart_list");
+                resp.sendRedirect( "/admin/cart");
                 break;
             case "orders":
-                resp.sendRedirect( "/order_list");
+                resp.sendRedirect( "/admin/orders");
                 break;
             default:
                 resp.sendRedirect( "/admin");
